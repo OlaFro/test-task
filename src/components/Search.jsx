@@ -48,16 +48,22 @@ export default function Search() {
     ));
   }
 
+  function readInputs(e) {
+    setQuery({ ...query, [e.target.name]: e.target.value });
+  }
+
   function handleQuery() {
     axios
       .get(
-        URL +
-          //   "api/Availabilities?location={query.region}&startDate={query.start}&endDate={query.end}&rating={query.rating}&skip=0&top=10",
+        `$https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10}`,
 
-          "api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10",
+        // "api/Availabilities?location=&startDate=&endDate=&skip=0&top=10",
 
-        //   "api/Availabilities?location=Leipzig&startDate=2021-09-12T19%3A59%3A16&endDate=2021-10-12T19%3A59%3A16&rating=1&skip=0&top=10",
+        // "api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10",
 
+        //"api/Availabilities?startDate=2021-09-12&endDate=2021-10-12&rating=1&skip=0&top=10",
+
+        // "api/Availabilities?startDate=2021-01-20&endDate=2021-03-30&skip=0&top=10",
         {
           headers: {
             ContentType: "application/json",
@@ -66,10 +72,6 @@ export default function Search() {
         }
       )
       .then((res) => console.log(res.data));
-  }
-
-  function readInputs(e) {
-    setQuery({ ...query, [e.target.name]: e.target.value });
   }
 
   return (
