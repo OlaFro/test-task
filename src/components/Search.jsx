@@ -15,18 +15,18 @@ export default function Search() {
     end: "",
     rating: "",
   });
+  const [hotels, setHotels] = useState([]);
 
-  function getData() {
+  var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
+
+  function getLocations() {
     axios
-      .get(
-        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Location",
-        {
-          headers: {
-            ContentType: "application/json",
-            "X-DevTours-Developer": "Ola",
-          },
-        }
-      )
+      .get(URL + "api/Location", {
+        headers: {
+          ContentType: "application/json",
+          "X-DevTours-Developer": "Ola",
+        },
+      })
       .then((res) => {
         setData(res.data);
         let cities = [];
@@ -48,21 +48,37 @@ export default function Search() {
     ));
   }
 
-  function handleQuery() {}
+  function handleQuery() {
+    axios
+      .get(
+        URL +
+          //   "api/Availabilities?location={query.region}&startDate={query.start}&endDate={query.end}&rating={query.rating}&skip=0&top=10",
+
+          "api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10",
+
+        //   "api/Availabilities?location=Leipzig&startDate=2021-09-12T19%3A59%3A16&endDate=2021-10-12T19%3A59%3A16&rating=1&skip=0&top=10",
+
+        {
+          headers: {
+            ContentType: "application/json",
+            "X-DevTours-Developer": "Ola",
+          },
+        }
+      )
+      .then((res) => console.log(res.data));
+  }
+
+  function readInputs(e) {
+    setQuery({ ...query, [e.target.name]: e.target.value });
+  }
 
   return (
     <>
-      <button onClick={getData}>get data</button>
+      <button onClick={getLocations}>get data</button>
       <StyledSearch>
         <div>
           <label id="region">Region</label>
-          <select
-            onChange={(e) =>
-              setQuery({ ...query, [e.target.name]: e.target.value })
-            }
-            name="region"
-            id="region"
-          >
+          <select onChange={(e) => readInputs(e)} name="region" id="region">
             <option>Choose city</option>
             {cities ? showOptions() : null}
           </select>
@@ -71,9 +87,7 @@ export default function Search() {
         <div>
           <label id="start">Day of Arrival</label>
           <input
-            onChange={(e) =>
-              setQuery({ ...query, [e.target.name]: e.target.value })
-            }
+            onChange={(e) => readInputs(e)}
             type="date"
             id="start"
             name="start"
@@ -82,9 +96,7 @@ export default function Search() {
         <div>
           <label id="end">Day of Departure</label>
           <input
-            onChange={(e) =>
-              setQuery({ ...query, [e.target.name]: e.target.value })
-            }
+            onChange={(e) => readInputs(e)}
             type="date"
             id="end"
             name="end"
@@ -93,13 +105,7 @@ export default function Search() {
 
         <div>
           <label id="rating">Rating</label>
-          <select
-            onChange={(e) =>
-              setQuery({ ...query, [e.target.name]: e.target.value })
-            }
-            name="rating"
-            id="rating"
-          >
+          <select onChange={(e) => readInputs(e)} name="rating" id="rating">
             <option>Choose rating</option>
             <option value="5">★★★★★</option>
             <option value="4">★★★★☆</option>
