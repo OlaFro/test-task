@@ -2,25 +2,39 @@ import styled, { css } from "styled-components";
 import { lighten, darken } from "polished";
 
 export const StyledSearch = styled.section`
-  width: 80%;
+  width: 40%;
+
   margin: 15vh auto 5vh auto;
   background-color: #d5cabd;
   display: flex;
-  align-items: flex-start;
   border-radius: 5px;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 1240px) {
+    width: 80%;
+    max-width: 1000px;
+    flex-direction: row;
+  }
 
   > div {
     margin: 20px;
+    display: flex;
+    flex-direction: column;
   }
-  > div > label {
-    margin-bottom: 15px;
+
+  label {
     text-transform: uppercase;
   }
-  > div > input,
-  > div > select {
+
+  > div > select,
+  > div > input {
     font-family: "Rubik", sans-serif;
     font-size: 1rem;
     padding: 10px;
+    border: none;
+    margin-top: 15px;
+    width: 180px;
   }
 `;
 
@@ -35,7 +49,9 @@ export const StyledButton = styled.button`
   font-size: 1rem;
   font-weight: 500;
   :hover {
-    background-color: #4e8397;
+    background-color: ${darken(0.2, "#845ec2")};
   }
   align-self: center;
+
+  cursor: pointer;
 `;

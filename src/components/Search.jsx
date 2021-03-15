@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
+import {
+  StyledSearch,
+  StyledButton,
+  StyledDates,
+} from "../styled-components/StyledSearch";
 export default function Search() {
   const [data, setData] = useState("");
   const [cities, setCities] = useState([]);
@@ -47,6 +51,7 @@ export default function Search() {
           {cities ? showOptions() : null}
         </select>
       </div>
+
       <div>
         <label id="start">Day of Arrival</label>
         <input type="date" id="start" name="start" />
@@ -55,6 +60,7 @@ export default function Search() {
         <label id="end">Day of Departure</label>
         <input type="date" id="end" name="end" />
       </div>
+
       <div>
         <label id="rating">Rating</label>
         <select name="rating" id="rating">
@@ -66,7 +72,6 @@ export default function Search() {
           <option value="1">★☆☆☆☆</option>
         </select>
       </div>
-
       <StyledButton onClick={handleClick}> Search</StyledButton>
     </StyledSearch>
   );

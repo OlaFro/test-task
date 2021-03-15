@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
 :root {
  
 
+}
 
 html {
   box-sizing: border-box;
