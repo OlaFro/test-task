@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { StyledSearch } from "../styled-components/StyledSearch";
+import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 export default function Search() {
   const [data, setData] = useState("");
   const [cities, setCities] = useState([]);
@@ -67,7 +67,7 @@ export default function Search() {
         </select>
       </div>
 
-      <button onClick={handleClick}> Search</button>
+      <StyledButton onClick={handleClick}> Search</StyledButton>
     </StyledSearch>
   );
 }

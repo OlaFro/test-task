@@ -1,10 +1,14 @@
+import { GlobalStyle } from "./styled-components/GlobalStyle";
 import Search from "./components/Search";
+import React from "react";
 
 function App() {
   return (
-    <div>
+    <React.Fragment>
+      <GlobalStyle />
+
       <Search />
-    </div>
+    </React.Fragment>
   );
 }
 
