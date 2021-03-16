@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
-import { lighten, darken } from "polished";
+import { darken } from "polished";
 
 export const StyledSearch = styled.section`
   width: 40%;
 
-  margin: 15vh auto 5vh auto;
+  margin: 10vh auto 5vh auto;
   background-color: #d5cabd;
   display: flex;
   border-radius: 5px;

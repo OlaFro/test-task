@@ -76,7 +76,9 @@ export default function Search() {
                 "X-DevTours-Developer": "Ola",
               },
             })
-            .then((res) =>
+            .then((res) => {
+              console.log(res.data);
+
               setHotels((prevHotel) => {
                 return [
                   ...prevHotel,
@@ -85,10 +87,12 @@ export default function Search() {
                     rating: res.data.rating,
                     amenities: res.data.amenities,
                     address: res.data.address,
+                    img: res.data.images[0].lowres,
+                    desc: res.data.description,
                   },
                 ];
-              })
-            );
+              });
+            });
         }
       })
       .catch((err) => {

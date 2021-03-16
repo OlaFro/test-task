@@ -15,9 +15,9 @@ function App() {
       }}
     >
       <GlobalStyle />
-
+      <h1>developer-tours</h1>
       <Search />
-      <List />
+      {hotels ? <List /> : null}
     </appContext.Provider>
   );
 }

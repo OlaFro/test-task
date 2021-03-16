@@ -3,16 +3,19 @@ import { appContext } from "./Context";
 
 import Card from "./Card";
 
+import { StyledList } from "../styled-components/StyledList";
+
 export default function List() {
   const { hotels } = useContext(appContext);
 
   return (
-    <div>
-      {hotels.length
+    <StyledList>
+      {hotels.length ? <Card /> : null}
+      {/* {hotels.length
         ? hotels.map((elem, index) => {
             return <Card hotel={elem} key={index} />;
           })
-        : null}
-    </div>
+        : null} */}
+    </StyledList>
   );
 }
