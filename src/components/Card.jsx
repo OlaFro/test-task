@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { StyledCard } from "../styled-components/StyledCard";
 
 import { appContext } from "./Context";
 
 export default function Card(props) {
   const { hotels } = useContext(appContext);
+  const [amenities, setAmenities] = useState([]);
 
   function renderSwitch(rating) {
     switch (rating) {
@@ -23,6 +24,18 @@ export default function Card(props) {
     }
   }
 
+  function renderAmenities(obj) {
+    for (const key in obj) {
+      console.log(key);
+      // if (obj[key]) {
+      //   amenities.push(key.replace("_", " "));
+      //   setAmenities([...amenities]);
+      // }
+      // setAmenities(amenities);
+      <p>{`${key}: ${obj[key]}`}</p>;
+    }
+  }
+
   return (
     <StyledCard>
       <figure>
@@ -31,11 +44,12 @@ export default function Card(props) {
       <div className="textContainer">
         <h2>{hotels[0].name}</h2>
 
-        {hotels[0].rating ? renderSwitch(hotels[0].rating) : 0}
+        {hotels[0].rating ? renderSwitch(hotels[0].rating) : null}
 
-        <p>{hotels[0].address}</p>
+        {/* <p>{hotels[0].address}</p> */}
 
         <p>{hotels[0].desc}</p>
+        {renderAmenities(hotels[0].amenities)}
       </div>
 
       {/* <p>name: {props.hotel.name}</p>

@@ -77,7 +77,7 @@ export default function Search() {
               },
             })
             .then((res) => {
-              console.log(res.data);
+              //console.log(res.data);
 
               setHotels((prevHotel) => {
                 return [

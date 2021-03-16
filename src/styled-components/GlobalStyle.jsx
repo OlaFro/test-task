@@ -24,6 +24,7 @@ body {
   padding: 0;
   font-family: 'Rubik', sans-serif;;
   color: #4A4A4A;
+  background-color: #E0E4ED;
 }
 
 h1 {

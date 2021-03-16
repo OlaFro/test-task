@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
 import { darken } from "polished";
+import colors from "./colors";
 
 export const StyledSearch = styled.section`
   width: 40%;
-
-  margin: 10vh auto 5vh auto;
-  background-color: #d5cabd;
+  margin: 0 auto 5vh auto;
+  background-color: ${colors.blue};
+  color: white;
   display: flex;
   border-radius: 5px;
   flex-direction: column;
@@ -17,6 +18,8 @@ export const StyledSearch = styled.section`
     flex-direction: row;
   }
 
+  > .hero {
+  }
   > div {
     margin: 20px;
     display: flex;
@@ -35,12 +38,15 @@ export const StyledSearch = styled.section`
     border: none;
     margin-top: 15px;
     width: 180px;
+    background-color: white;
+    border-radius: 15px;
+    color: ${colors.blue};
   }
 `;
 
 export const StyledButton = styled.button`
-  background-color: #845ec2;
-  color: white;
+  background-color: white;
+  color: ${colors.blue};
   padding: 10px 15px;
   border-radius: 20px;
   border: none;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GlobalStyle } from "./styled-components/GlobalStyle";
 import { appContext } from "./components/Context";
 
+import Hero from "./components/Hero";
 import Search from "./components/Search";
 import List from "./components/List";
 
@@ -15,7 +16,8 @@ function App() {
       }}
     >
       <GlobalStyle />
-      <h1>developer-tours</h1>
+      <Hero />
+
       <Search />
       {hotels ? <List /> : null}
     </appContext.Provider>
