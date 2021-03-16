@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { appContext } from "./Context";
 
-import {
-  StyledSearch,
-  StyledButton,
-  StyledDates,
-} from "../styled-components/StyledSearch";
+import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
+
 export default function Search() {
-  const [data, setData] = useState("");
+  const { setHotels } = useContext(appContext);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -15,11 +13,11 @@ export default function Search() {
     end: "",
     rating: "",
   });
-  const [hotels, setHotels] = useState([]);
 
   var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
 
-  function getLocations() {
+  // fetching the list of the locations on load
+  useEffect(() => {
     axios
       .get(URL + "api/Location", {
         headers: {
@@ -28,42 +26,37 @@ export default function Search() {
         },
       })
       .then((res) => {
-        setData(res.data);
-        let cities = [];
-        for (const entry of data) {
-          cities.push(entry.name);
+        for (const entry of res.data) {
+          setCities((prevCities) => {
+            return [...prevCities, entry.name];
+          });
         }
-        setCities(cities);
       })
       .catch((err) => {
         throw err;
       });
-  }
+  }, []);
 
+  //rendering options of select based on fetched cities
   function showOptions() {
-    return cities.map((elem) => (
-      <option value={elem} key={elem}>
+    return cities.map((elem, index) => (
+      <option value={elem} key={index}>
         {elem}
       </option>
     ));
   }
 
+  //reading the user inputs for query
   function readInputs(e) {
     setQuery({ ...query, [e.target.name]: e.target.value });
   }
 
+  //sending the query
   function handleQuery() {
     axios
       .get(
-        `$https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10}`,
+        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
 
-        // "api/Availabilities?location=&startDate=&endDate=&skip=0&top=10",
-
-        // "api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10",
-
-        //"api/Availabilities?startDate=2021-09-12&endDate=2021-10-12&rating=1&skip=0&top=10",
-
-        // "api/Availabilities?startDate=2021-01-20&endDate=2021-03-30&skip=0&top=10",
         {
           headers: {
             ContentType: "application/json",
@@ -71,12 +64,44 @@ export default function Search() {
           },
         }
       )
-      .then((res) => console.log(res.data));
+
+      // getting available offers in the giving time
+      .then((res) => {
+        for (const entry of res.data.items) {
+          // sending request for details of each of the hotel
+          axios
+            .get(`${URL}/api/Hotel/${entry.hotelId}`, {
+              headers: {
+                ContentType: "application/json",
+                "X-DevTours-Developer": "Ola",
+              },
+            })
+            .then((res) => {
+              //console.log(res.data);
+
+              setHotels((prevHotel) => {
+                return [
+                  ...prevHotel,
+                  {
+                    name: res.data.name,
+                    rating: res.data.rating,
+                    amenities: res.data.amenities,
+                    address: res.data.address,
+                    img: res.data.images[0].lowres,
+                    desc: res.data.description,
+                  },
+                ];
+              });
+            });
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   return (
     <>
-      <button onClick={getLocations}>get data</button>
       <StyledSearch>
         <div>
           <label id="region">Region</label>
