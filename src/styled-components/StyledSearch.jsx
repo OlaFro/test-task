@@ -1,6 +1,7 @@
-import styled, { css } from "styled-components";
-import { darken } from "polished";
+import styled from "styled-components";
+
 import colors from "./colors";
+import device from "./device";
 
 export const StyledSearch = styled.section`
   width: 40%;
@@ -8,18 +9,21 @@ export const StyledSearch = styled.section`
   background-color: rgba(24, 63, 216, 0.85);
   color: white;
   display: flex;
-  border-radius: 5px;
+  border-radius: 25px;
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 70%;
+  top: 80%;
   left: 50%;
   transform: translateX(-50%);
 
-  @media (min-width: 1240px) {
+  @media ${device.desktop} {
     width: 100%;
     max-width: 1000px;
     flex-direction: row;
+    left: 20%;
+    top: 70%;
+    transform: translateX(0);
   }
 
   > .hero {
