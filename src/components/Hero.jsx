@@ -1,15 +1,19 @@
 import React from "react";
-import hero from "../assets/hero.jpg";
 
+import Search from "./Search";
 import { StyledHero } from "../styled-components/StyledHero";
+
+import hero from "../assets/hero.jpg";
 
 export default function Hero() {
   return (
     <StyledHero>
-      <figure className="hero">
-        <img src={hero} alt="developer-tours" />
-      </figure>
-      {/* <h1>developer-tours</h1> */}
+      <img src={hero} alt="developer-tours" />
+      <div>
+        <h1>developer tours</h1>
+        <h2>so where do you want to go?</h2>
+      </div>
+      <Search />
     </StyledHero>
   );
 }

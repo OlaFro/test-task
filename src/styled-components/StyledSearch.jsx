@@ -4,16 +4,20 @@ import colors from "./colors";
 
 export const StyledSearch = styled.section`
   width: 40%;
-  margin: 0 auto 5vh auto;
-  background-color: ${colors.blue};
+
+  background-color: rgba(24, 63, 216, 0.85);
   color: white;
   display: flex;
   border-radius: 5px;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
 
   @media (min-width: 1240px) {
-    width: 80%;
+    width: 100%;
     max-width: 1000px;
     flex-direction: row;
   }
@@ -41,6 +45,7 @@ export const StyledSearch = styled.section`
     background-color: white;
     border-radius: 15px;
     color: ${colors.blue};
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -54,10 +59,13 @@ export const StyledButton = styled.button`
   font-family: "Rubik", sans-serif;
   font-size: 1rem;
   font-weight: 500;
+  transition: all 200ms ease-in-out;
   :hover {
-    background-color: ${darken(0.2, "#845ec2")};
+    background-color: ${colors.blue};
+    color: white;
   }
   align-self: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   cursor: pointer;
 `;

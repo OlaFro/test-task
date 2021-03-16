@@ -18,7 +18,7 @@ function App() {
       <GlobalStyle />
       <Hero />
 
-      <Search />
+      {/* <Search /> */}
       {hotels ? <List /> : null}
     </appContext.Provider>
   );
