@@ -1,14 +1,28 @@
 import { GlobalStyle } from "./styled-components/GlobalStyle";
 import Search from "./components/Search";
-import React from "react";
+import React, { useState } from "react";
+import { appContext } from "./components/Context";
 
 function App() {
+  const [hotels, setHotels] = useState([
+    // {
+    //   name: "",
+    //   address: "",
+    //   rating: "",
+    //   amenities: [],
+    // },
+  ]);
   return (
-    <React.Fragment>
+    <appContext.Provider
+      value={{
+        hotels,
+        setHotels,
+      }}
+    >
       <GlobalStyle />
 
       <Search />
-    </React.Fragment>
+    </appContext.Provider>
   );
 }
 

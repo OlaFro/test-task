@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { appContext } from "./Context";
 
-import {
-  StyledSearch,
-  StyledButton,
-  StyledDates,
-} from "../styled-components/StyledSearch";
+import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
+
 export default function Search() {
+  const { hotels, setHotels } = useContext(appContext);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -14,10 +13,10 @@ export default function Search() {
     end: "",
     rating: "",
   });
-  const [hotels, setHotels] = useState([]);
 
   var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
 
+  // fetching the list of the locations on load
   useEffect(() => {
     axios
       .get(URL + "api/Location", {
@@ -38,32 +37,25 @@ export default function Search() {
       });
   }, []);
 
+  //rendering options of select based on fetched cities
   function showOptions() {
-    return cities.map((elem) => (
-      <option value={elem} key={elem}>
+    return cities.map((elem, index) => (
+      <option value={elem} key={index}>
         {elem}
       </option>
     ));
   }
 
+  //reading the user inputs for query
   function readInputs(e) {
     setQuery({ ...query, [e.target.name]: e.target.value });
   }
 
+  //sending the query
   function handleQuery() {
     axios
       .get(
-        //`$https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10}`,
-
-        // "api/Availabilities?location=&startDate=&endDate=&skip=0&top=10",
-
-        // "api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10",
-
-        //"api/Availabilities?startDate=2021-09-12&endDate=2021-10-12&rating=1&skip=0&top=10",
-
-        // "api/Availabilities?startDate=2021-01-20&endDate=2021-03-30&skip=0&top=10",
-
-        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12T19%3A59%3A16&endDate=%202020-09-12T19%3A59%3A16&skip=0&top=10",
+        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
 
         {
           headers: {
@@ -72,7 +64,37 @@ export default function Search() {
           },
         }
       )
-      .then((res) => console.log(res.data));
+
+      // getting available offers in the giving time
+      .then((res) => {
+        console.log(res.data.items);
+        for (const entry of res.data.items) {
+          // sending request for details of each of the hotel
+          axios
+            .get(`${URL}/api/Hotel/${entry.hotelId}`, {
+              headers: {
+                ContentType: "application/json",
+                "X-DevTours-Developer": "Ola",
+              },
+            })
+            .then((res) =>
+              setHotels((prevHotel) => {
+                return [
+                  ...prevHotel,
+                  {
+                    name: res.data.name,
+                    rating: res.data.rating,
+                    amenities: res.data.amenities,
+                    address: res.data.address,
+                  },
+                ];
+              })
+            );
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   return (
