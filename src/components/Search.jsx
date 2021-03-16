@@ -5,7 +5,7 @@ import { appContext } from "./Context";
 import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 
 export default function Search() {
-  const { hotels, setHotels } = useContext(appContext);
+  const { setHotels } = useContext(appContext);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -67,7 +67,6 @@ export default function Search() {
 
       // getting available offers in the giving time
       .then((res) => {
-        console.log(res.data.items);
         for (const entry of res.data.items) {
           // sending request for details of each of the hotel
           axios

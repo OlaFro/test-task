@@ -1,17 +1,12 @@
-import { GlobalStyle } from "./styled-components/GlobalStyle";
-import Search from "./components/Search";
 import React, { useState } from "react";
+import { GlobalStyle } from "./styled-components/GlobalStyle";
 import { appContext } from "./components/Context";
 
+import Search from "./components/Search";
+import List from "./components/List";
+
 function App() {
-  const [hotels, setHotels] = useState([
-    // {
-    //   name: "",
-    //   address: "",
-    //   rating: "",
-    //   amenities: [],
-    // },
-  ]);
+  const [hotels, setHotels] = useState([]);
   return (
     <appContext.Provider
       value={{
@@ -22,6 +17,7 @@ function App() {
       <GlobalStyle />
 
       <Search />
+      <List />
     </appContext.Provider>
   );
 }
