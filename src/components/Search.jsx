@@ -7,7 +7,6 @@ import {
   StyledDates,
 } from "../styled-components/StyledSearch";
 export default function Search() {
-  const [data, setData] = useState("");
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -19,7 +18,7 @@ export default function Search() {
 
   var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
 
-  function getLocations() {
+  useEffect(() => {
     axios
       .get(URL + "api/Location", {
         headers: {
@@ -28,17 +27,16 @@ export default function Search() {
         },
       })
       .then((res) => {
-        setData(res.data);
-        let cities = [];
-        for (const entry of data) {
-          cities.push(entry.name);
+        for (const entry of res.data) {
+          setCities((prevCities) => {
+            return [...prevCities, entry.name];
+          });
         }
-        setCities(cities);
       })
       .catch((err) => {
         throw err;
       });
-  }
+  }, []);
 
   function showOptions() {
     return cities.map((elem) => (
@@ -55,7 +53,7 @@ export default function Search() {
   function handleQuery() {
     axios
       .get(
-        `$https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10}`,
+        //`$https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate={query.start}&endDate={query.end}&skip=0&top=10}`,
 
         // "api/Availabilities?location=&startDate=&endDate=&skip=0&top=10",
 
@@ -64,6 +62,9 @@ export default function Search() {
         //"api/Availabilities?startDate=2021-09-12&endDate=2021-10-12&rating=1&skip=0&top=10",
 
         // "api/Availabilities?startDate=2021-01-20&endDate=2021-03-30&skip=0&top=10",
+
+        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12T19%3A59%3A16&endDate=%202020-09-12T19%3A59%3A16&skip=0&top=10",
+
         {
           headers: {
             ContentType: "application/json",
@@ -76,7 +77,6 @@ export default function Search() {
 
   return (
     <>
-      <button onClick={getLocations}>get data</button>
       <StyledSearch>
         <div>
           <label id="region">Region</label>
