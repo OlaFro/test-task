@@ -39,22 +39,18 @@ export default function Card(props) {
   return (
     <StyledCard>
       <figure>
-        <img src={hotels[0].img} alt={hotels.name} />
+        <img src={props.hotel.img} alt={props.hotel.name} />
       </figure>
       <div className="textContainer">
-        <h2>{hotels[0].name}</h2>
+        <h2>{props.hotel.name}</h2>
 
-        {hotels[0].rating ? renderSwitch(hotels[0].rating) : null}
+        {renderSwitch(props.hotel.rating)}
 
         {/* <p>{hotels[0].address}</p> */}
 
-        <p>{hotels[0].desc}</p>
-        {renderAmenities(hotels[0].amenities)}
+        <p>{props.hotel.desc}</p>
+        {renderAmenities(props.hotel.amenities)}
       </div>
-
-      {/* <p>name: {props.hotel.name}</p>
-      <p>address: {props.hotel.address}</p>
-      <p>rating: {props.hotel.rating}</p> */}
     </StyledCard>
   );
 }

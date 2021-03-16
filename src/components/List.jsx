@@ -10,12 +10,11 @@ export default function List() {
 
   return (
     <StyledList>
-      {hotels.length ? <Card /> : null}
-      {/* {hotels.length
+      {hotels.length
         ? hotels.map((elem, index) => {
             return <Card hotel={elem} key={index} />;
           })
-        : null} */}
+        : null}
     </StyledList>
   );
 }

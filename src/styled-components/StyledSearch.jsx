@@ -4,18 +4,24 @@ import colors from "./colors";
 import device from "./device";
 
 export const StyledSearch = styled.section`
-  width: 40%;
+  width: 80%;
 
-  background-color: rgba(24, 63, 216, 0.85);
+  background-color: ${colors.blue};
   color: white;
   display: flex;
   border-radius: 25px;
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 80%;
+  top: 110%;
   left: 50%;
   transform: translateX(-50%);
+
+  @media ${device.tabletLandscape} {
+    width: 40%;
+    top: 80%;
+    left: 50%;
+  }
 
   @media ${device.desktop} {
     width: 100%;
@@ -24,6 +30,7 @@ export const StyledSearch = styled.section`
     left: 20%;
     top: 70%;
     transform: translateX(0);
+    background-color: rgba(24, 63, 216, 0.85);
   }
 
   > .hero {
