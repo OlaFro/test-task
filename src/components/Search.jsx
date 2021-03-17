@@ -5,7 +5,9 @@ import { appContext } from "./Context";
 import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 
 export default function Search() {
-  const { setHotels } = useContext(appContext);
+  const { hotels, setHotels, setNoItemsFlag, checkedItems } = useContext(
+    appContext
+  );
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -13,6 +15,7 @@ export default function Search() {
     end: "",
     rating: "",
   });
+  const [dateFlag, setDateFlag] = useState({ start: false, end: false });
 
   var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
 
@@ -49,56 +52,100 @@ export default function Search() {
   //reading the user inputs for query
   function readInputs(e) {
     setQuery({ ...query, [e.target.name]: e.target.value });
+    if (e.target.name === "start") {
+      setDateFlag({ ...dateFlag, start: false });
+    } else if (e.target.name === "end") {
+      setDateFlag({ ...dateFlag, end: false });
+    }
   }
 
   //sending the query
   function handleQuery() {
-    axios
-      .get(
-        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
+    if (query.start && query.end) {
+      axios
+        .get(
+          `${URL}/api/Availabilities?startDate=${query.start}&endDate=${query.end}&skip=0&top=10`,
 
-        {
-          headers: {
-            ContentType: "application/json",
-            "X-DevTours-Developer": "Ola",
-          },
-        }
-      )
+          {
+            headers: {
+              ContentType: "application/json",
+              "X-DevTours-Developer": "Ola",
+            },
+          }
+        )
 
-      // getting available offers in the giving time
-      .then((res) => {
-        for (const entry of res.data.items) {
-          // sending request for details of each of the hotel
-          axios
-            .get(`${URL}/api/Hotel/${entry.hotelId}`, {
-              headers: {
-                ContentType: "application/json",
-                "X-DevTours-Developer": "Ola",
-              },
-            })
-            .then((res) => {
-              //console.log(res.data);
-
-              setHotels((prevHotel) => {
-                return [
-                  ...prevHotel,
-                  {
-                    name: res.data.name,
-                    rating: res.data.rating,
-                    amenities: res.data.amenities,
-                    address: res.data.address,
-                    img: res.data.images[0].lowres,
-                    desc: res.data.description,
+        // getting available offers in the giving time
+        .then((res) => {
+          if (res.data.items.length) {
+            setNoItemsFlag(false);
+            for (const entry of res.data.items) {
+              // sending request for details for each of the hotel
+              axios
+                .get(`${URL}/api/Hotel/${entry.hotelId}`, {
+                  headers: {
+                    ContentType: "application/json",
+                    "X-DevTours-Developer": "Ola",
                   },
-                ];
-              });
-            });
-        }
-      })
-      .catch((err) => {
-        throw err;
-      });
+                })
+                .then((res) => {
+                  //console.log(res.data.amenities);
+
+                  setHotels((prevHotel) => {
+                    return [
+                      ...prevHotel,
+                      {
+                        name: res.data.name,
+                        rating: res.data.rating,
+                        amenities: res.data.amenities,
+                        address: res.data.address,
+                        img: res.data.images[0].lowres,
+                        desc: res.data.description,
+                      },
+                    ];
+                  });
+                });
+            }
+          } else {
+            setNoItemsFlag(true);
+          }
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else {
+      setDateFlag({ start: true, end: true });
+    }
   }
+
+  useEffect(() => {
+    let setTrue = [];
+    let filteredHotels = [];
+
+    for (let key of Object.keys(checkedItems)) {
+      if (checkedItems[key]) {
+        setTrue.push(key);
+      }
+    }
+
+    for (let hotel of hotels) {
+      let hotelOffers = [];
+      for (let key of Object.keys(hotel.amenities)) {
+        if (hotel.amenities[key]) {
+          hotelOffers.push(key);
+        }
+      }
+
+      console.log(hotelOffers);
+
+      for (let elem of setTrue) {
+        if (hotelOffers.includes(elem)) {
+          filteredHotels.push(hotel);
+        }
+      }
+      console.log(filteredHotels);
+      setHotels(filteredHotels);
+    }
+  }, [checkedItems]);
 
   return (
     <>
@@ -112,22 +159,26 @@ export default function Search() {
         </div>
 
         <div>
-          <label id="start">Day of Arrival</label>
+          <label id="start">Day of Arrival*</label>
           <input
             onChange={(e) => readInputs(e)}
             type="date"
             id="start"
             name="start"
+            required
           />
+          {dateFlag.start ? <small>Required</small> : null}
         </div>
         <div>
-          <label id="end">Day of Departure</label>
+          <label id="end">Day of Departure*</label>
           <input
             onChange={(e) => readInputs(e)}
             type="date"
             id="end"
             name="end"
+            required
           />
+          {dateFlag.end ? <small>Required</small> : null}
         </div>
 
         <div>

@@ -25,20 +25,27 @@ export const StyledSearch = styled.section`
 
   @media ${device.desktop} {
     width: 100%;
+    height: 8rem;
     max-width: 1000px;
     flex-direction: row;
+    align-items: flex-start;
     left: 20%;
     top: 70%;
     transform: translateX(0);
     background-color: rgba(24, 63, 216, 0.85);
+    > button {
+      margin-top: 33px;
+    }
   }
 
-  > .hero {
-  }
   > div {
-    margin: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+
+    > small {
+      padding-top: 5px;
+    }
   }
 
   label {
@@ -57,6 +64,9 @@ export const StyledSearch = styled.section`
     border-radius: 15px;
     color: ${colors.blue};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    :focus {
+      outline: none;
+    }
   }
 `;
 
@@ -74,6 +84,9 @@ export const StyledButton = styled.button`
   :hover {
     background-color: ${colors.blue};
     color: white;
+  }
+  :focus {
+    outline: none;
   }
   align-self: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
