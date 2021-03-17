@@ -13,6 +13,7 @@ export default function Search() {
     end: "",
     rating: "",
   });
+  const [dateFlag, setDateFlag] = useState({ start: false, end: false });
 
   var URL = "https://afrecruitingfront-webapi-prod.azurewebsites.net/";
 
@@ -53,51 +54,55 @@ export default function Search() {
 
   //sending the query
   function handleQuery() {
-    axios
-      .get(
-        "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
+    if (query.start && query.end) {
+      axios
+        .get(
+          "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
 
-        {
-          headers: {
-            ContentType: "application/json",
-            "X-DevTours-Developer": "Ola",
-          },
-        }
-      )
+          {
+            headers: {
+              ContentType: "application/json",
+              "X-DevTours-Developer": "Ola",
+            },
+          }
+        )
 
-      // getting available offers in the giving time
-      .then((res) => {
-        for (const entry of res.data.items) {
-          // sending request for details of each of the hotel
-          axios
-            .get(`${URL}/api/Hotel/${entry.hotelId}`, {
-              headers: {
-                ContentType: "application/json",
-                "X-DevTours-Developer": "Ola",
-              },
-            })
-            .then((res) => {
-              //console.log(res.data);
+        // getting available offers in the giving time
+        .then((res) => {
+          for (const entry of res.data.items) {
+            // sending request for details of each of the hotel
+            axios
+              .get(`${URL}/api/Hotel/${entry.hotelId}`, {
+                headers: {
+                  ContentType: "application/json",
+                  "X-DevTours-Developer": "Ola",
+                },
+              })
+              .then((res) => {
+                //console.log(res.data);
 
-              setHotels((prevHotel) => {
-                return [
-                  ...prevHotel,
-                  {
-                    name: res.data.name,
-                    rating: res.data.rating,
-                    amenities: res.data.amenities,
-                    address: res.data.address,
-                    img: res.data.images[0].lowres,
-                    desc: res.data.description,
-                  },
-                ];
+                setHotels((prevHotel) => {
+                  return [
+                    ...prevHotel,
+                    {
+                      name: res.data.name,
+                      rating: res.data.rating,
+                      amenities: res.data.amenities,
+                      address: res.data.address,
+                      img: res.data.images[0].lowres,
+                      desc: res.data.description,
+                    },
+                  ];
+                });
               });
-            });
-        }
-      })
-      .catch((err) => {
-        throw err;
-      });
+          }
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else {
+      setDateFlag({ start: true, end: true });
+    }
   }
 
   return (
@@ -112,22 +117,26 @@ export default function Search() {
         </div>
 
         <div>
-          <label id="start">Day of Arrival</label>
+          <label id="start">Day of Arrival*</label>
           <input
             onChange={(e) => readInputs(e)}
             type="date"
             id="start"
             name="start"
+            required
           />
+          {dateFlag.start ? <small>Required</small> : null}
         </div>
         <div>
-          <label id="end">Day of Departure</label>
+          <label id="end">Day of Departure*</label>
           <input
             onChange={(e) => readInputs(e)}
             type="date"
             id="end"
             name="end"
+            required
           />
+          {dateFlag.end ? <small>Required</small> : null}
         </div>
 
         <div>

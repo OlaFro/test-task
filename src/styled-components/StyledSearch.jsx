@@ -11,7 +11,7 @@ export const StyledSearch = styled.section`
   display: flex;
   border-radius: 25px;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   position: absolute;
   top: 110%;
   left: 50%;
@@ -36,9 +36,13 @@ export const StyledSearch = styled.section`
   > .hero {
   }
   > div {
-    margin: 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
+
+    > small {
+      padding-top: 5px;
+    }
   }
 
   label {
