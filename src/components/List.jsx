@@ -6,15 +6,20 @@ import Card from "./Card";
 import { StyledList } from "../styled-components/StyledList";
 
 export default function List() {
-  const { hotels } = useContext(appContext);
+  const { hotels, noItemsFlag } = useContext(appContext);
 
   return (
     <StyledList>
-      {hotels.length
-        ? hotels.map((elem, index) => {
-            return <Card hotel={elem} key={index} />;
-          })
-        : null}
+      {noItemsFlag ? (
+        <p>
+          Oops! It looks like there are no available offers in this time. Try to
+          change the date.
+        </p>
+      ) : (
+        hotels.map((elem, index) => {
+          return <Card hotel={elem} key={index} />;
+        })
+      )}
     </StyledList>
   );
 }

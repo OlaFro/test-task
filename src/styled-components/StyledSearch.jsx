@@ -11,7 +11,7 @@ export const StyledSearch = styled.section`
   display: flex;
   border-radius: 25px;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: absolute;
   top: 110%;
   left: 50%;
@@ -25,16 +25,19 @@ export const StyledSearch = styled.section`
 
   @media ${device.desktop} {
     width: 100%;
+    height: 8rem;
     max-width: 1000px;
     flex-direction: row;
+    align-items: flex-start;
     left: 20%;
     top: 70%;
     transform: translateX(0);
     background-color: rgba(24, 63, 216, 0.85);
+    > button {
+      margin-top: 33px;
+    }
   }
 
-  > .hero {
-  }
   > div {
     padding: 20px;
     display: flex;

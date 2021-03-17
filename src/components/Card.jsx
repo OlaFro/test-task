@@ -26,7 +26,8 @@ export default function Card(props) {
 
   function renderAmenities(obj) {
     for (const key in obj) {
-      console.log(key);
+      //console.log(key);
+
       // if (obj[key]) {
       //   amenities.push(key.replace("_", " "));
       //   setAmenities([...amenities]);

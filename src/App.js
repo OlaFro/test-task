@@ -8,11 +8,14 @@ import List from "./components/List";
 
 function App() {
   const [hotels, setHotels] = useState([]);
+  const [noItemsFlag, setNoItemsFlag] = useState(false);
   return (
     <appContext.Provider
       value={{
         hotels,
         setHotels,
+        noItemsFlag,
+        setNoItemsFlag,
       }}
     >
       <GlobalStyle />

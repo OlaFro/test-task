@@ -5,7 +5,7 @@ import { appContext } from "./Context";
 import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 
 export default function Search() {
-  const { setHotels } = useContext(appContext);
+  const { setHotels, noItemsFlag, setNoItemsFlag } = useContext(appContext);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -50,6 +50,11 @@ export default function Search() {
   //reading the user inputs for query
   function readInputs(e) {
     setQuery({ ...query, [e.target.name]: e.target.value });
+    if (e.target.name === "start") {
+      setDateFlag({ ...dateFlag, start: false });
+    } else if (e.target.name === "end") {
+      setDateFlag({ ...dateFlag, end: false });
+    }
   }
 
   //sending the query
@@ -57,7 +62,7 @@ export default function Search() {
     if (query.start && query.end) {
       axios
         .get(
-          "https://afrecruitingfront-webapi-prod.azurewebsites.net/api/Availabilities?startDate=2020-09-12&endDate=%202020-09-13&skip=0&top=10",
+          `${URL}/api/Availabilities?startDate=${query.start}&endDate=${query.end}&skip=0&top=10`,
 
           {
             headers: {
@@ -69,32 +74,37 @@ export default function Search() {
 
         // getting available offers in the giving time
         .then((res) => {
-          for (const entry of res.data.items) {
-            // sending request for details of each of the hotel
-            axios
-              .get(`${URL}/api/Hotel/${entry.hotelId}`, {
-                headers: {
-                  ContentType: "application/json",
-                  "X-DevTours-Developer": "Ola",
-                },
-              })
-              .then((res) => {
-                //console.log(res.data);
+          if (res.data.items.length) {
+            setNoItemsFlag(false);
+            for (const entry of res.data.items) {
+              // sending request for details for each of the hotel
+              axios
+                .get(`${URL}/api/Hotel/${entry.hotelId}`, {
+                  headers: {
+                    ContentType: "application/json",
+                    "X-DevTours-Developer": "Ola",
+                  },
+                })
+                .then((res) => {
+                  //console.log(res.data);
 
-                setHotels((prevHotel) => {
-                  return [
-                    ...prevHotel,
-                    {
-                      name: res.data.name,
-                      rating: res.data.rating,
-                      amenities: res.data.amenities,
-                      address: res.data.address,
-                      img: res.data.images[0].lowres,
-                      desc: res.data.description,
-                    },
-                  ];
+                  setHotels((prevHotel) => {
+                    return [
+                      ...prevHotel,
+                      {
+                        name: res.data.name,
+                        rating: res.data.rating,
+                        amenities: res.data.amenities,
+                        address: res.data.address,
+                        img: res.data.images[0].lowres,
+                        desc: res.data.description,
+                      },
+                    ];
+                  });
                 });
-              });
+            }
+          } else {
+            setNoItemsFlag(true);
           }
         })
         .catch((err) => {
