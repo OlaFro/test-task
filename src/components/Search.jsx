@@ -5,7 +5,7 @@ import { appContext } from "./Context";
 import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 
 export default function Search() {
-  const { setHotels, noItemsFlag, setNoItemsFlag } = useContext(appContext);
+  const { setHotels, setNoItemsFlag } = useContext(appContext);
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",

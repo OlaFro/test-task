@@ -3,7 +3,6 @@ import { GlobalStyle } from "./styled-components/GlobalStyle";
 import { appContext } from "./components/Context";
 
 import Hero from "./components/Hero";
-import Search from "./components/Search";
 import List from "./components/List";
 
 function App() {

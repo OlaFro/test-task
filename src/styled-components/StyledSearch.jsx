@@ -64,6 +64,9 @@ export const StyledSearch = styled.section`
     border-radius: 15px;
     color: ${colors.blue};
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    :focus {
+      outline: none;
+    }
   }
 `;
 
@@ -81,6 +84,9 @@ export const StyledButton = styled.button`
   :hover {
     background-color: ${colors.blue};
     color: white;
+  }
+  :focus {
+    outline: none;
   }
   align-self: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

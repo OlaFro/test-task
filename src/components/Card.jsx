@@ -1,10 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { StyledCard } from "../styled-components/StyledCard";
 
-import { appContext } from "./Context";
-
 export default function Card(props) {
-  const { hotels } = useContext(appContext);
   const [amenities, setAmenities] = useState([]);
 
   function renderSwitch(rating) {
@@ -25,16 +22,20 @@ export default function Card(props) {
   }
 
   function renderAmenities(obj) {
-    for (const key in obj) {
-      console.log(key);
-
-      // if (obj[key]) {
-      //   amenities.push(key.replace("_", " "));
-      //   setAmenities([...amenities]);
-      // }
-      // setAmenities(amenities);
-      <p>{`${key}: ${obj[key]}`}</p>;
+    let amenities = [];
+    for (let key of Object.keys(obj)) {
+      if (obj[key]) {
+        amenities.push(key.replace("_", " "));
+      }
     }
+    console.log(amenities);
+    return amenities.map((elem) => {
+      return (
+        <p className="amenity" key={elem}>
+          {elem}
+        </p>
+      );
+    });
   }
 
   return (
@@ -50,7 +51,9 @@ export default function Card(props) {
         {/* <p>{hotels[0].address}</p> */}
 
         <p>{props.hotel.desc}</p>
-        {renderAmenities(props.hotel.amenities)}
+        <div className="amenities">
+          {renderAmenities(props.hotel.amenities)}
+        </div>
       </div>
     </StyledCard>
   );
