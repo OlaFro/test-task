@@ -5,7 +5,9 @@ import { appContext } from "./Context";
 import { StyledSearch, StyledButton } from "../styled-components/StyledSearch";
 
 export default function Search() {
-  const { setHotels, setNoItemsFlag } = useContext(appContext);
+  const { hotels, setHotels, setNoItemsFlag, checkedItems } = useContext(
+    appContext
+  );
   const [cities, setCities] = useState([]);
   const [query, setQuery] = useState({
     region: "",
@@ -86,7 +88,7 @@ export default function Search() {
                   },
                 })
                 .then((res) => {
-                  //console.log(res.data);
+                  //console.log(res.data.amenities);
 
                   setHotels((prevHotel) => {
                     return [
@@ -114,6 +116,27 @@ export default function Search() {
       setDateFlag({ start: true, end: true });
     }
   }
+
+  useEffect(() => {
+    let setTrue = [];
+    for (let key of Object.keys(checkedItems)) {
+      if (checkedItems[key]) {
+        setTrue.push(key);
+      }
+    }
+
+    let hotelOffers = [];
+
+    for (let hotel of hotels) {
+      for (let key of Object.keys(hotel.amenities)) {
+        if (hotel.amenities[key]) {
+          console.log(key);
+          hotelOffers.push(key);
+        }
+      }
+    }
+    //console.log(hotelOffers);
+  }, [checkedItems]);
 
   return (
     <>

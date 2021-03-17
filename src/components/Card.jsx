@@ -28,7 +28,7 @@ export default function Card(props) {
         amenities.push(key.replace("_", " "));
       }
     }
-    console.log(amenities);
+
     return amenities.map((elem) => {
       return (
         <p className="amenity" key={elem}>

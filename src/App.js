@@ -8,6 +8,14 @@ import List from "./components/List";
 function App() {
   const [hotels, setHotels] = useState([]);
   const [noItemsFlag, setNoItemsFlag] = useState(false);
+  const [checkedItems, setCheckedItems] = useState({
+    breakfast_included: false,
+    free_cancellation: false,
+    free_parking: false,
+    fitness: false,
+    pool: false,
+    free_wifi: false,
+  });
   return (
     <appContext.Provider
       value={{
@@ -15,6 +23,8 @@ function App() {
         setHotels,
         noItemsFlag,
         setNoItemsFlag,
+        checkedItems,
+        setCheckedItems,
       }}
     >
       <GlobalStyle />
