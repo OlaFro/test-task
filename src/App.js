@@ -22,7 +22,7 @@ function App() {
       <Hero />
 
       {/* <Search /> */}
-      {hotels ? <List /> : null}
+      {hotels.length ? <List /> : null}
     </appContext.Provider>
   );
 }
