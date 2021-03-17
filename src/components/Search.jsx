@@ -119,23 +119,32 @@ export default function Search() {
 
   useEffect(() => {
     let setTrue = [];
+    let filteredHotels = [];
+
     for (let key of Object.keys(checkedItems)) {
       if (checkedItems[key]) {
         setTrue.push(key);
       }
     }
 
-    let hotelOffers = [];
-
     for (let hotel of hotels) {
+      let hotelOffers = [];
       for (let key of Object.keys(hotel.amenities)) {
         if (hotel.amenities[key]) {
-          console.log(key);
           hotelOffers.push(key);
         }
       }
+
+      console.log(hotelOffers);
+
+      for (let elem of setTrue) {
+        if (hotelOffers.includes(elem)) {
+          filteredHotels.push(hotel);
+        }
+      }
+      console.log(filteredHotels);
+      setHotels(filteredHotels);
     }
-    //console.log(hotelOffers);
   }, [checkedItems]);
 
   return (
